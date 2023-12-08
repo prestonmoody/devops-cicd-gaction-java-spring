@@ -32,7 +32,10 @@ jobs:
       run: |
         aws configure set region us-east-1
         aws s3 cp ./target/**.jar s3://$AWS_S3_BUCKET/$ARTIFACT_NAME
+        CURRENT_VERSION=$(echo $CURRENT_VERSION | tr -d 'v')
+        NEW_VERSION=$((CURRENT_VERSION + 1))
+        echo “TIMESTAMP=$(date + %Y%m%d%H%s)” >> $GITHUB_ENV
     - name: Deploy to Elastic Beanstalk
       run: |
-        aws elasticbeanstalk create-application-version --application-name $AWS_EB_APP_NAME --version-label $AWS_EB_APP_VERSION --source-bundle S3Bucket=$AWS_S3_BUCKET,S3Key=$ARTIFACT_NAME
-        aws elasticbeanstalk update-environment --application-name $AWS_EB_APP_NAME --environment-name $AWS_EB_ENVIRONMENT --version-label $AWS_EB_APP_VERSION
+        aws elasticbeanstalk create-application-version --application-name $AWS_EB_APP_NAME --version-label v${{ env.NEW_VERSION }} --source-bundle S3Bucket=$AWS_S3_BUCKET,S3Key=$ARTIFACT_NAME
+        aws elasticbeanstalk update-environment --application-name $AWS_EB_APP_NAME --environment-name $AWS_EB_ENVIRONMENT --version-label v${{ env.NEW_VERSION }}
