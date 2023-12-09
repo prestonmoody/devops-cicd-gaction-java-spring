@@ -10,7 +10,7 @@ env:
   AWS_S3_BUCKET: "preston-ewdevops-s3"
   ARTIFACT_NAME: "hello-world.jar"
   AWS_EB_APP_NAME: "devops-cicd-gaction-java-spring"
-  AWS_EB_APP_VERSION: "${{BUILD_ID}}"
+  AWS_EB_APP_VERSION: ${{BUILD_ID}}
   AWS_EB_ENVIRONMENT: "devops-cicd-gaction-java-spring-dev "
   SONAR_IP: "52.23.236.52"
   SONAR_TOKEN: "sqp_6e393ce32b1d8ccbcbeabfe2af993978d8413f38"
