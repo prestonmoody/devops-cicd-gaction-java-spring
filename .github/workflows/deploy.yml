@@ -10,7 +10,7 @@ env:
   AWS_S3_BUCKET: "preston-ewdevops-s3"
   ARTIFACT_NAME: "hello-world.jar"
   AWS_EB_APP_NAME: "devops-cicd-gaction-java-spring"
-  AWS_EB_APP_VERSION: ${{BUILD_ID}}
+  AWS_EB_APP_VERSION: ${{ github.run_id }}
   AWS_EB_ENVIRONMENT: "devops-cicd-gaction-java-spring-dev "
   SONAR_IP: "52.23.236.52"
   SONAR_TOKEN: "sqp_6e393ce32b1d8ccbcbeabfe2af993978d8413f38"
@@ -36,7 +36,7 @@ jobs:
     - name: Debug Information
       run: |
         echo "AWS_EB_APP_VERSION: $AWS_EB_APP_VERSION"
-        echo "BUILD_ID: $BUILD_ID"
+        echo "BUILD_ID: ${{ github.run_id }}"
     - name: Deploy to Elastic Beanstalk
       run: |
         aws elasticbeanstalk create-application-version --application-name $AWS_EB_APP_NAME --version-label $AWS_EB_APP_VERSION --source-bundle S3Bucket=$AWS_S3_BUCKET,S3Key=$ARTIFACT_NAME
